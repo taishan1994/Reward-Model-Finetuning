@@ -1,0 +1,46 @@
+# Model arguments
+model_name_or_path: ./model_hub/01ai/Yi-6B-Chat
+torch_dtype: bfloat16
+use_flash_attention_2: true
+
+# Data training arguments
+dataset_mixer:
+    /data/gongoubo/Reward-Factory/data/CValues-Comparison: 1.0
+dataset_splits:
+- train
+- test
+preprocessing_num_workers: 12
+
+# SFT trainer config
+bf16: true
+do_eval: true
+evaluation_strategy: steps
+eval_steps: 100
+gradient_accumulation_steps: 4
+gradient_checkpointing: false
+gradient_checkpointing_kwargs:
+  use_reentrant: False
+hub_model_id: None
+learning_rate: 1e-5
+log_level: info
+use_peft: true
+#load_in_8bit: true
+lora_target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+# lora_modules_to_save: score
+logging_steps: 5
+lr_scheduler_type: cosine
+num_train_epochs: 2
+max_length: 4096
+optim: adamw_torch
+output_dir: data/qwen-15-72B-v3.1-dev1.8
+per_device_eval_batch_size: 1
+per_device_train_batch_size: 1
+push_to_hub: false
+save_strategy: "steps"
+save_steps: 100
+save_total_limit: 1
+seed: 42
+warmup_ratio: 0.1
